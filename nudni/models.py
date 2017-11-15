@@ -9,8 +9,15 @@ class Artist(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='artist', on_delete=models.PROTECT, unique=True)
     present = models.BooleanField('Jsem tady', default=False)
     photo = models.ImageField('Profilovka', upload_to='nudni/artist/')
-    intro = models.TextField('Textík pod profilovku')
-    
+    intro = models.CharField('Textík pod profilovku', max_length=400)
+    color = models.CharField('Barva', max_length=7)
+
+    def get_color(self):
+        if self.present:
+            return self.color
+        else:
+            return '#7a7a7a'
+
     def full_name(self):
         return '{} {}'.format(self.user.first_name, self.user.last_name).strip()
 

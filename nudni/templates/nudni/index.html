@@ -10,37 +10,18 @@
     {% block head %}{% endblock %}
     <style>
 .frame {
-    background:
-        linear-gradient(#fafafa ,#fafafa),
-        linear-gradient(100deg,
-            {% if lenka.present %}#A0EAFF, #A0EAFF
-            {% else %}#7a7a7a, #7a7a7a{% endif %} 49.9%,
-            {% if ondrej.present %}#FFB6ED 50%, #FFB6ED
-            {% else %}#7a7a7a 50%, #7a7a7a{% endif %} 100%) no-repeat;
+    background: linear-gradient(#fafafa ,#fafafa),
+        linear-gradient(100deg,{{lenka.color}}, {{lenka.color}} 49.9%, {{ondrej.color}} 50%, {{ondrej.color}} 100%) no-repeat;
     background-clip: content-box, border-box;
 }
-.gradient {
+.gradient,#text_h, #text_p {
     color: transparent;
     text-align: center;
-    overflow:hidden;
-    background: linear-gradient(100deg,
-            {% if lenka.present %}#A0EAFF, #A0EAFF
-            {% else %}#7a7a7a, #7a7a7a{% endif %} 49.9%,
-            {% if ondrej.present %}#FFB6ED 50%, #FFB6ED
-            {% else %}#7a7a7a 50%, #7a7a7a{% endif %} 100%) no-repeat;
+    overflow: hidden;
+    background: linear-gradient(100deg,{{lenka.color}}, {{lenka.color}} 49.9%, {{ondrej.color}} 50%, {{ondrej.color}} 100%)
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
 }
-#text_h, #text_p {
-    background:
-        linear-gradient(100deg,
-            {% if lenka.present %}#A0EAFF, #A0EAFF
-            {% else %}#7a7a7a, #7a7a7a{% endif %} 49.9%,
-            {% if ondrej.present %}#FFB6ED 50%, #FFB6ED
-            {% else %}#7a7a7a 50%, #7a7a7a{% endif %} 100%) no-repeat;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-        }
     </style>
 </head>
 <body>

@@ -10,3 +10,6 @@ from cms_site.settings import *
 INSTALLED_APPS = [
     'nudni',
 ] + INSTALLED_APPS
+
+LOGIN_URL = '/admin/login/'
+ROOT_URLCONF = 'nudni.urls'

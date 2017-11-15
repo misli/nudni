@@ -1,0 +1,152 @@
+{% load staticfiles %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %} &mdash; NUDA</title>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block head %}{% endblock %}
+    <style>
+.frame {
+    background:
+        linear-gradient(#fafafa ,#fafafa),
+        linear-gradient(100deg,
+            {% if lenka.present %}#A0EAFF, #A0EAFF
+            {% else %}#7a7a7a, #7a7a7a{% endif %} 49.9%,
+            {% if ondrej.present %}#FFB6ED 50%, #FFB6ED
+            {% else %}#7a7a7a 50%, #7a7a7a{% endif %} 100%) no-repeat;
+    background-clip: content-box, border-box;
+}
+.gradient {
+    color: transparent;
+    text-align: center;
+    overflow:hidden;
+    background: linear-gradient(100deg,
+            {% if lenka.present %}#A0EAFF, #A0EAFF
+            {% else %}#7a7a7a, #7a7a7a{% endif %} 49.9%,
+            {% if ondrej.present %}#FFB6ED 50%, #FFB6ED
+            {% else %}#7a7a7a 50%, #7a7a7a{% endif %} 100%) no-repeat;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+#text_h, #text_p {
+    background:
+        linear-gradient(100deg,
+            {% if lenka.present %}#A0EAFF, #A0EAFF
+            {% else %}#7a7a7a, #7a7a7a{% endif %} 49.9%,
+            {% if ondrej.present %}#FFB6ED 50%, #FFB6ED
+            {% else %}#7a7a7a 50%, #7a7a7a{% endif %} 100%) no-repeat;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+        }
+    </style>
+</head>
+<body>
+    <script>
+var work_index = 0;
+var work_gall = [];
+var work_text_h = [];
+var work_text_p = [];
+var hashes = ['#prace','#kontakt'];
+scroll_to_hash = function(hash){
+    if( $.inArray(hash,hashes,-1) ){
+        $('html, body').animate({
+            scrollTop: $(hash).offset().top
+        }, 'slow', function(){
+            window.location.hash = hash;
+        });
+        $('a').toggleClass('active');
+    }
+}
+next_work = function(){
+    $('#gall').html("");
+    $('#gall').append(work_gall[work_index]);
+    $('#text_h').html(work_text_h[work_index]);
+    $('#text_p').html(work_text_p[work_index]);
+    work_index = (work_index+1)%{{work_list|length}};
+}
+refresh_colors = function(){
+    $('.gradient, .frame').each(function(){
+        var position = $(this).offset();
+        $(this).css({
+            "background-position" : "-"+position.left+"px -"+position.top+"px",
+            "background-size" : $(window).width()+"px "+$(window).height()+"px",
+        });
+    });
+}
+$(function(){
+    if (window.location.hash == '#kontakt'){
+        scroll_to_hash('#kontakt');
+    };
+
+    {% for work in work_list %}
+
+    work_gall[{{ forloop.counter0 }}] = new Image();
+    work_gall[{{ forloop.counter0 }}].src = "{{ work.photo.url }}";
+    work_text_h[{{ forloop.counter0 }}] = "{{ work.name }}";
+    work_text_p[{{ forloop.counter0 }}] = "{{ work.description }}";
+
+    {% endfor %}
+
+    refresh_colors();
+    next_work();
+    $( window ).resize(function() {
+        refresh_colors();
+    });
+    $( 'section' ).scroll(function() {
+        refresh_colors();
+    });
+    $('#gall').on('click',function() {
+        next_work();
+    });
+    $("a").on('click', function(event){
+        var hash = this.hash;
+        if (!$(this).hasClass('active')){
+            event.preventDefault();
+            scroll_to_hash(hash);
+        }
+    });
+});
+    </script>
+    <div id="header_wrap" class="">
+        <div id="header">
+            <div id="logo_wrap" class='frame'>
+                <span id="logo" class="gradient">nudni</span>
+            </div>
+            <div id="menu" class='gradient'>
+                <a id="prace_button" class="active" href="#prace" style="margin-right: 10px">práce</a>
+                <a id="kontakt_button" href="#kontakt" style="margin-left: 10px">kontakt</a>
+            </div>
+        </div>
+    </div>
+    <section id="prace">
+        <div class="wrap">
+            <h1 class="gradient">poslení práce</h1>
+            <div id="frame" class="frame">
+                <div id="gall">
+                </div>
+                <div id="text">
+                    <h2 id="text_h" class="gradient"></h2>
+                    <p id="text_p" class="gradient"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="kontakt">
+        <div id="gap" class="shadow"></div>
+        <div class="wrap">
+            <div id="lenka" class="kontakt">
+                <img src="{{ lenka.photo.url }}">
+                <h3>{{ lenka.full_name }}</h3>
+                <p>{{ lenka.intro }}</p>
+            </div>
+            <div id="ondrej" class="kontakt">
+                <img src="{{ ondrej.photo.url }}">
+                <h3>{{ ondrej.full_name }}</h3>
+                <p>{{ ondrej.intro }}</p>
+            </div>
+        </div>
+    </section>
+</body>

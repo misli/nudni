@@ -10,7 +10,7 @@ class Artist(models.Model):
     present = models.BooleanField('Jsem tady', default=False)
     photo = models.ImageField('Profilovka', upload_to='nudni/artist/')
     intro = models.CharField('Textík pod profilovku', max_length=400)
-    color = models.CharField('Barva', max_length=7)
+    color = models.CharField('Barva', default='#7a7a7a', max_length=7)
 
     def get_color(self):
         if self.present:

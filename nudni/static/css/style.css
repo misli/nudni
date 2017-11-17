@@ -31,10 +31,14 @@ body {
 h3 {
     font-size: 1.5em;
 }
+h2 {
+    margin-top: 0px;
+    font-size: 1.5em;
+}
 h1 {
     font-weight: normal;
     font-size: 2em;
-    margin: 10px 0px;
+    margin: 0px;
 }
 #logo {
     vertical-align: bottom;
@@ -81,6 +85,7 @@ section {
     width: 80%;
 }
 #kontakt {
+    padding-top: 50px;
     background-color: #4d4d4d;
     color: #fafafa;
     text-align: center;
@@ -104,31 +109,58 @@ section {
     text-align: center;
     vertical-align:top;
 }
-/* #A0EAFF,#FFB6ED */
-
 #frame {
     padding: 14px;
     width: calc(100%-28px);
     height: 70%;
 }
-#gall{
-    display: inline-block;
-    margin: 7% 7% 7% 10%;
-/*    overflow: hidden;*/
-    vertical-align: middle;
+.dot {
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+    border-radius: 50%;
 }
-#gall img{
-    height: 45vh;
-    box-shadow: 10px 10px 8px #222;
+@media screen and (orientation:landscape) {
+    #gall{
+        display: inline-block;
+        margin: 7% 0% 7% 10%;
+        width: 50%;
+        vertical-align: middle;
+    }
+    #gall img{
+        width: 100%;
+        box-shadow: 10px 10px 8px #222;
+    }
+    #text{
+        padding: 2% 0px;
+        display: inline-block;
+        width: 30%;
+        float: right;
+        position: relative;
+        top:20vh;
+        right: -50px;
+        background-color: #fafafa;
+        text-align: center;
+    }
 }
-#text{
-    padding: 2% 0px;
-    display: inline-block;
-    width: 30%;
-    float: right;
-    position: relative;
-    top: 15vh;
-    right: -50px;
-    background-color: #fafafa;
-    text-align: center;
+@media screen and (orientation:portrait) {
+    #gall{
+        margin: 0 auto;
+        margin-top: 3%;
+        width: 80%;
+    }
+    #gall img{
+        width: 100%;
+        box-shadow: 10px 10px 8px #222;
+    }
+
+    #text{
+        padding: 0% 7%;
+        width: 60%;
+        margin: 0 auto;
+        background-color: #fafafa;
+        text-align: center;
+        position: relative;
+        bottom: -50px;
+    }
 }

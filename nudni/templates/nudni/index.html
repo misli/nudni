@@ -33,12 +33,19 @@ var work_text_p = [];
 var hashes = ['#prace','#kontakt'];
 scroll_to_hash = function(hash){
     if( $.inArray(hash,hashes,-1) ){
+        if( hash!='#kontakt' ){
+            $('#header_wrap').removeClass('shadow');
+        };
         $('html, body').animate({
             scrollTop: $(hash).offset().top
-        }, 'slow', function(){
+        }, 400, function(){
             window.location.hash = hash;
+            if( hash=='#kontakt' ){
+                $('#header_wrap').addClass('shadow');
+            };
         });
-        $('a').toggleClass('active');
+        $('#menu a[href="'+hash+'"]').addClass('active');
+        $('#menu a[href!="'+hash+'"]').removeClass('active');
     }
 }
 next_work = function(){
@@ -46,6 +53,7 @@ next_work = function(){
     $('#gall').append(work_gall[work_index]);
     $('#text_h').html(work_text_h[work_index]);
     $('#text_p').html(work_text_p[work_index]);
+    $('#text').html($('#text').html());
     work_index = (work_index+1)%{{work_list|length}};
 }
 refresh_colors = function(){
@@ -53,7 +61,7 @@ refresh_colors = function(){
         var position = $(this).offset();
         $(this).css({
             "background-position" : "-"+position.left+"px -"+position.top+"px",
-            "background-size" : $(window).width()+"px "+$(window).height()+"px",
+            "background-size" : $(document).width()+"px "+$(document).height()+"px",
         });
     });
 }
@@ -75,6 +83,7 @@ $(function(){
     next_work();
     $( window ).resize(function() {
         refresh_colors();
+        window.location.hash = window.location.hash;
     });
     $( 'section' ).scroll(function() {
         refresh_colors();
@@ -82,7 +91,7 @@ $(function(){
     $('#gall').on('click',function() {
         next_work();
     });
-    $("a").on('click', function(event){
+    $("#menu a").on('click', function(event){
         var hash = this.hash;
         if (!$(this).hasClass('active')){
             event.preventDefault();
@@ -91,7 +100,7 @@ $(function(){
     });
 });
     </script>
-    <div id="header_wrap" class="">
+    <div id="header_wrap">
         <div id="header">
             <div id="logo_wrap" class='frame'>
                 <span id="logo" class="gradient">nudni</span>
@@ -122,11 +131,13 @@ $(function(){
                 <img src="{{ lenka.photo.url }}">
                 <h3>{{ lenka.full_name }}</h3>
                 <p>{{ lenka.intro }}</p>
+                <div class="dot" style="background-color: {{ lenka.color }}"></div>
             </div>
             <div id="ondrej" class="kontakt">
                 <img src="{{ ondrej.photo.url }}">
                 <h3>{{ ondrej.full_name }}</h3>
                 <p>{{ ondrej.intro }}</p>
+                <div class="dot" style="background-color: {{ ondrej.color }}"></div>
             </div>
         </div>
     </section>

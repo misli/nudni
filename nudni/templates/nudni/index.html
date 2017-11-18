@@ -10,15 +10,16 @@
     {% block head %}{% endblock %}
     <style>
 .frame {
-    background: linear-gradient(#fafafa ,#fafafa),
-        linear-gradient(100deg,{{lenka.color}}, {{lenka.color}} 49.9%, {{ondrej.color}} 50%, {{ondrej.color}} 100%) no-repeat;
+    background:
+        linear-gradient(#fafafa ,#fafafa),
+        linear-gradient(100deg, {{lenka.get_color}}, {{lenka.get_color}} 49.9%, {{ondrej.get_color}} 50%, {{ondrej.get_color}} 100%) no-repeat;
     background-clip: content-box, border-box;
 }
-.gradient,#text_h, #text_p {
+.gradient {
     color: transparent;
     text-align: center;
-    overflow: hidden;
-    background: linear-gradient(100deg,{{lenka.color}}, {{lenka.color}} 49.9%, {{ondrej.color}} 50%, {{ondrej.color}} 100%)
+    overflow:hidden;
+    background: linear-gradient(100deg, {{lenka.get_color}}, {{lenka.get_color}} 49.9%, {{ondrej.get_color}} 50%, {{ondrej.get_color}} 100%) no-repeat;
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
 }
@@ -125,7 +126,6 @@ $(function(){
         </div>
     </section>
     <section id="kontakt">
-        <div id="gap" class="shadow"></div>
         <div class="wrap">
             <div id="lenka" class="kontakt">
                 <img src="{{ lenka.photo.url }}">

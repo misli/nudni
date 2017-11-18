@@ -45,7 +45,7 @@ h1 {
     display: inline-block;
     margin: 0 auto;
     font-size: 2em;
-    margin: 3px 5px -7px 7px
+    margin: 3px 5px -7px 7px;
 }
 #logo_wrap {
     display: inline-block;
@@ -95,19 +95,13 @@ section {
     min-width: 40%;
     display: inline-block;
     padding: 2% 2%;
+    text-align: center;
+    vertical-align:top;
 }
 .kontakt img {
     width: 200px;
     border-radius: 50%;
     margin-bottom: 20px;
-}
-#lenka {
-    text-align: center;
-    vertical-align:top;
-}
-#ondrej {
-    text-align: center;
-    vertical-align:top;
 }
 #frame {
     padding: 14px;

@@ -2,6 +2,9 @@
     font-family: Vision;
     src: url("../otf/Vision-Regular.otf") format("opentype");
 }
+
+/* document */
+
 html {
     height: 100%;
 }
@@ -12,20 +15,14 @@ body {
     height: 100%;
     overflow: hidden;
 }
-#header {
-    width: 84%;
-    margin: 0 auto;
-    margin-top: 50px;
-    margin-bottom: 10px;
-}
 #header_wrap {
     background-color: #fafafa;
     width: 100%;
     position: fixed;
     z-index: 100;
-    height: 100px;
 }
 #header_wrap,h1,h3 {
+    line-height: 1.4;
     font-family: Vision;
 }
 h3 {
@@ -33,27 +30,31 @@ h3 {
 }
 h2 {
     margin-top: 0px;
-    font-size: 1.5em;
+    font-size: 1.3em;
 }
 h1 {
     font-weight: normal;
     font-size: 2em;
     margin: 0px;
 }
+#logo_wrap {
+    display: inline-block;
+    padding: 1px;
+    position: relative;
+}
 #logo {
     vertical-align: bottom;
     display: inline-block;
     margin: 0 auto;
     font-size: 2em;
-    margin: 3px 5px -7px 7px;
+    margin: 3px 35px -7px 7px;
 }
-#logo_wrap {
-    display: inline-block;
-    padding: 3px;
-}
-#menu {
-    display: inline-block;
-    float: right;
+#logo_dot {
+    width: 11px;
+    height: 11px;
+    position: absolute;
+    right: -5px;
+    bottom: -5px;
 }
 .active {
     font-size: 2em;
@@ -63,14 +64,6 @@ a {
     transition-property: all;
     transition-duration: 0.2s;
 }
-#prace {
-    width: 100%;
-    background-color: #fafafa;
-}
-#gap {
-    height: 100px;
-    background-color: #fafafa;
-}
 .shadow {
     box-shadow: 0px 10px 8px #222;
 }
@@ -79,34 +72,52 @@ section {
     height: 100%;
     overflow: scroll;
 }
-.wrap {
-    margin: 0 auto;
-    padding-top: 100px;
-    width: 80%;
+.frame {
+    padding: 1.4%;
+    width: 97.2%;
+    /*height: 70%;*/
 }
-#kontakt {
-    padding-top: 50px;
+
+/* /document */
+/* section #prace */
+
+#gall:hover, #square:hover{
+  cursor: pointer;
+}
+#square:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.content {
+  position: absolute;
+  padding: 10%;
+}
+
+/* /section #prace*/
+/* section #my */
+#my {
     background-color: #4d4d4d;
     color: #fafafa;
     text-align: center;
 }
-.kontakt {
-    width: 300px;
+.umelec p {
+    width: 250px;
+    margin: 0 auto;
+}
+.umelec {
     min-width: 40%;
     display: inline-block;
-    padding: 2% 2%;
+    padding: 4% 2% 0px 2%;
+    margin-top: 20px;
     text-align: center;
     vertical-align:top;
 }
-.kontakt img {
+.umelec img {
     width: 200px;
     border-radius: 50%;
     margin-bottom: 20px;
-}
-#frame {
-    padding: 14px;
-    width: calc(100%-28px);
-    height: 70%;
 }
 .dot {
     width: 20px;
@@ -114,47 +125,167 @@ section {
     margin: 0 auto;
     border-radius: 50%;
 }
+
+/* /section #my */
+/* landscape */
+
 @media screen and (orientation:landscape) {
+    #header_wrap {
+        height: 65px;
+        vertical-align: bottom;
+    }
+    #header {
+        width: 86%;
+        margin: 0 auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        vertical-align: bottom;
+    }
+    #logo_wrap {
+    }
+    #menu {
+        display: inline-block;
+        float: right;
+    }
+    .wrap {
+        margin: 0 auto;
+        padding-top: 70px;
+        width: 80%;
+    }
     #gall{
         display: inline-block;
-        margin: 7% 0% 7% 10%;
-        width: 50%;
+        margin: 4vh 0%;
+        max-width: 50%;
+        max-height: 60vh;
         vertical-align: middle;
+        position: relative;
+        top: 0px;
+        left: 10%
     }
     #gall img{
         width: 100%;
+        height: 100%;
         box-shadow: 10px 10px 8px #222;
     }
-    #text{
-        padding: 2% 0px;
+    #square {
+      width: 30%;
+      min-width: 170px;
+      max-width: 200px;
+      display: inline-block;
+      position: absolute;
+      bottom: -9vh;
+      right: -9vh;
+    }
+    #prace .frame {
+        position: relative;
+    }
+
+    /* landscape section #nuda */
+
+    #nuda_text {
         display: inline-block;
         width: 30%;
-        float: right;
-        position: relative;
-        top:20vh;
-        right: -50px;
-        background-color: #fafafa;
-        text-align: center;
+        height: 100%;
     }
+    #nuda_text p{
+        margin: 0 auto;
+        padding: 5%;
+        font-size: 3vh;
+    }
+    #nuda_wrap {
+        margin: 5vh 0px;
+        width: 105%;
+        height: 60vh;
+        position: relative;
+        left: -10%;
+        top: 0px;
+    }
+    #map {
+        display: inline-block;
+        width: 65%;
+        height: 100%;
+        float: right;
+    }
+
+    /* /landscape section #nuda */
 }
+
+/* /landscape */
+/* portrait */
+
 @media screen and (orientation:portrait) {
+    #header_wrap {
+        height: 106px;
+    }
+    #header {
+        text-align: center;
+        width: 100%;
+        margin-top: 10px;
+    }
+    #logo_wrap {
+        margin-bottom: 10px;
+    }
+    #menu {
+        margin: 0 auto;
+        display: block;
+    }
+    .wrap {
+        margin: 0 auto;
+        padding-top: 110px;
+        width: 90%;
+    }
     #gall{
         margin: 0 auto;
         margin-top: 3%;
-        width: 80%;
+        width: 90%;
     }
     #gall img{
         width: 100%;
         box-shadow: 10px 10px 8px #222;
     }
 
-    #text{
-        padding: 0% 7%;
+    #square{
         width: 60%;
+        max-width: 250px;
         margin: 0 auto;
         background-color: #fafafa;
         text-align: center;
         position: relative;
-        bottom: -50px;
+        top: 5vh;
     }
+    #prace .frame {
+        height: auto;
+    }
+    /* portrait section #nuda */
+
+    #nuda .frame {
+        margin-top: 10vh;
+    }
+    #nuda_text {
+        display: inline-block;
+        width: 100%;
+        margin: 5% 0px;
+    }
+    #nuda_text p{
+        padding: 5%;
+        margin: 0px;
+    }
+    #nuda_wrap {
+        margin: 0 auto;
+        width: 90%;
+        height: 80%;
+        position: relative;
+        left: 0px;
+        top: -15vh;
+    }
+    #map {
+        display: block;
+        width: 100%;
+        height: 30vh;
+        margin-bottom: -13vh;
+    }
+
+        /* /portrait section #nuda */
 }
+
+/* /portrait */

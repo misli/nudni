@@ -3,13 +3,14 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %} &mdash; NUDA</title>
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block head %}{% endblock %}
     <style>
-.frame {
+.frame, #logo_wrap {
     background:
         linear-gradient(#fafafa ,#fafafa),
         linear-gradient(100deg, {{lenka.get_color}}, {{lenka.get_color}} 49.9%, {{ondrej.get_color}} 50%, {{ondrej.get_color}} 100%) no-repeat;
@@ -23,6 +24,11 @@
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
 }
+.text, #logo_dot {
+    text-align: center;
+    color: #fafafa;
+    background: linear-gradient(100deg, {{lenka.get_color}}, {{lenka.get_color}} 49.9%, {{ondrej.get_color}} 50%, {{ondrej.get_color}} 100%) no-repeat;
+}
     </style>
 </head>
 <body>
@@ -31,24 +37,28 @@ var work_index = 0;
 var work_gall = [];
 var work_text_h = [];
 var work_text_p = [];
-var hashes = ['#prace','#kontakt'];
+var hashes = ['#prace','#my','#nuda'];
+
 scroll_to_hash = function(hash){
-    if( $.inArray(hash,hashes,-1) ){
-        if( hash!='#kontakt' ){
-            $('#header_wrap').removeClass('shadow');
-        };
-        $('html, body').animate({
-            scrollTop: $(hash).offset().top
-        }, 400, function(){
-            window.location.hash = hash;
-            if( hash=='#kontakt' ){
-                $('#header_wrap').addClass('shadow');
-            };
-        });
-        $('#menu a[href="'+hash+'"]').addClass('active');
-        $('#menu a[href!="'+hash+'"]').removeClass('active');
+    if( $.inArray(hash,hashes)==-1){
+      hash = hashes[0];
     }
+    if( hash!='#my' ){
+        $('#header_wrap').removeClass('shadow');
+    };
+    $('html, body').animate({
+        scrollTop: $(hash).offset().top
+    }, 400, function(){
+        window.location.hash = hash;
+        if( hash=='#my' ){
+            $('#header_wrap').addClass('shadow');
+        };
+        refresh_colors();
+    });
+    $('#menu a[href="'+hash+'"]').addClass('active');
+    $('#menu a[href!="'+hash+'"]').removeClass('active');
 }
+
 next_work = function(){
     $('#gall').html("");
     $('#gall').append(work_gall[work_index]);
@@ -57,42 +67,122 @@ next_work = function(){
     $('#text').html($('#text').html());
     work_index = (work_index+1)%{{work_list|length}};
 }
+
 refresh_colors = function(){
-    $('.gradient, .frame').each(function(){
+    $('.refresh_colors').each(function(){
         var position = $(this).offset();
         $(this).css({
-            "background-position" : "-"+position.left+"px -"+position.top+"px",
-            "background-size" : $(document).width()+"px "+$(document).height()+"px",
+            "background-position" : "-"+(position.left - $(window).scrollLeft())+"px -"+(position.top - $(window).scrollTop())+"px",
+            "background-size" : $(window).width()+"px "+$(window).height()+"px",
         });
     });
 }
+
+function initMap() {
+  // Styles a map in night mode.
+  var styledMapType = new google.maps.StyledMapType([
+      {
+        elementType: "geometry",
+        stylers: [ { color: "#b7b7b7" } ]
+      }, {
+        elementType: "labels.icon",
+        stylers: [ { visibility: "off" } ]
+      }, {
+        elementType: "labels.text.fill",
+        stylers: [ { color: "#616161" } ]
+      }, {
+        elementType: "labels.text.stroke",
+        stylers: [ { color: "#f5f5f5" } ]
+      }, {
+        featureType: "road",
+        stylers: [ { color: "#ffffff" } ]
+      }, {
+        featureType: "road",
+        elementType: "geometry",
+        stylers: [ { color: "#ffffff" }, { visibility: "on" } ]
+      }, { featureType: "road",
+        elementType: "geometry.fill",
+        stylers: [ { color: "#ffffff" } ]
+      }, {
+        featureType: "road.arterial",
+        elementType: "geometry",
+        stylers: [ { color: "{{ lenka.get_color }}" } ]
+      }, {
+        featureType: "road.arterial",
+        elementType: "labels.text",
+        stylers: [ { "weight": 7 } ]
+      }, {
+        featureType: "road.arterial",
+        elementType: "labels.text.stroke",
+        stylers: [ { color: "{{ lenka.get_color }}" } ]
+      }, {
+        featureType: "road.highway",
+        elementType: "geometry",
+        stylers: [ { color: "{{ ondrej.get_color }}" } ]
+      }, {
+        featureType: "road.highway",
+        elementType: "labels.text.fill",
+        stylers: [ { color: "#ffffff" } ]
+      }, {
+        featureType: "road.highway",
+        elementType: "labels.text.stroke",
+        stylers: [ { color: "{{ ondrej.get_color }}" }, { "weight": 8 } ]
+      }, {
+        featureType: "road.local",
+        elementType: "labels.text.fill",
+        stylers: [ { color: "#4a4a4a" } ]
+      }, {
+        featureType: "transit.line",
+        elementType: "geometry",
+        stylers: [ { color: "#575757" } ]
+      }, { featureType: "water",
+        elementType: "geometry",
+        stylers: [ { color: "#8f8f8f" } ]
+      }, {
+        featureType: "water",
+        elementType: "labels.text",
+        stylers: [ { color: "#ffffff" } ]
+      }
+    ],{name: 'Styled Map'});
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 49.43105760620767, lng: 15.214682200551},
+    zoom: 15,
+    disableDefaultUI: true,
+    mapTypeControlOptions: {
+      mapTypeIds: ['styled_map']
+    }
+  });
+  map.mapTypes.set('styled_map', styledMapType);
+  map.setMapTypeId('styled_map');
+}
+
 $(function(){
-    if (window.location.hash == '#kontakt'){
-        scroll_to_hash('#kontakt');
+    if(window.location.hash){
+        scroll_to_hash(window.location.hash);
     };
+    scroll_to_hash(window.location.hash);
 
     {% for work in work_list %}
-
     work_gall[{{ forloop.counter0 }}] = new Image();
     work_gall[{{ forloop.counter0 }}].src = "{{ work.photo.url }}";
     work_text_h[{{ forloop.counter0 }}] = "{{ work.name }}";
     work_text_p[{{ forloop.counter0 }}] = "{{ work.description }}";
-
     {% endfor %}
 
     refresh_colors();
     next_work();
-    $( window ).resize(function() {
-        refresh_colors();
+    $(window).resize(function() {
         window.location.hash = window.location.hash;
-    });
-    $( 'section' ).scroll(function() {
         refresh_colors();
     });
-    $('#gall').on('click',function() {
+    $('body, section').scroll(function() {
+        refresh_colors();
+    });
+    $('section').waypoint
+    $('#gall, #square').on('click',function() {
         next_work();
     });
-    $("#menu a").on('click', function(event){
+    $('#menu a').on('click', function(event){
         var hash = this.hash;
         if (!$(this).hasClass('active')){
             event.preventDefault();
@@ -103,42 +193,68 @@ $(function(){
     </script>
     <div id="header_wrap">
         <div id="header">
-            <div id="logo_wrap" class='frame'>
-                <span id="logo" class="gradient">nudni</span>
+            <div id="logo_wrap" class="refresh_colors">
+                <h1 id="logo" class="gradient refresh_colors">nudni</h1>
+                <div id="logo_dot" class="refresh_colors"></div>
             </div>
-            <div id="menu" class='gradient'>
-                <a id="prace_button" class="active" href="#prace" style="margin-right: 10px">práce</a>
-                <a id="kontakt_button" href="#kontakt" style="margin-left: 10px">kontakt</a>
+            <div id="menu" class='gradient refresh_colors'>
+                <a href="#prace" class="active" >práce</a>
+                <a href="#my" style="margin: 10px">my</a>
+                <a href="#nuda">nuda</a>
             </div>
         </div>
     </div>
     <section id="prace">
         <div class="wrap">
-            <h1 class="gradient">poslední práce</h1>
-            <div id="frame" class="frame">
+            <!-- <h1 class="gradient refresh_colors">poslední práce</h1> -->
+            <div class="frame refresh_colors">
                 <div id="gall">
                 </div>
-                <div id="text">
-                    <h2 id="text_h" class="gradient"></h2>
-                    <p id="text_p" class="gradient"></p>
+                <div id="square" class="text refresh_colors">
+                  <div class="content">
+                    <h2 id="text_h"></h2>
+                    <p id="text_p"></p>
+                  </div>
                 </div>
             </div>
         </div>
     </section>
-    <section id="kontakt">
-        <div class="wrap">
-            <div id="lenka" class="kontakt">
+    <section id="my">
+        <div class="wrap" style="width:90%">
+            <div id="lenka" class="umelec">
                 <img src="{{ lenka.photo.url }}">
                 <h3>{{ lenka.full_name }}</h3>
                 <p>{{ lenka.intro }}</p>
+                {% if lenka.present %}
                 <div class="dot" style="background-color: {{ lenka.color }}"></div>
+                {% endif %}
             </div>
-            <div id="ondrej" class="kontakt">
+            <div id="ondrej" class="umelec">
                 <img src="{{ ondrej.photo.url }}">
                 <h3>{{ ondrej.full_name }}</h3>
                 <p>{{ ondrej.intro }}</p>
+                {% if ondrej.present %}
                 <div class="dot" style="background-color: {{ ondrej.color }}"></div>
+                {% endif %}
             </div>
         </div>
     </section>
+    <section id="nuda">
+        <div class="wrap">
+            <div class="frame refresh_colors">
+              <div id="nuda_wrap">
+                <div id="nuda_text" class="text refresh_colors">
+                    <p>Náš prostor. Místo pro tvorbu, střetávání podnětů i sociální interakci.<br />To je<br />NUDA<br />Kreativní prostor<br />NUDA</p>
+                    <p>V Pejru na Pražský</p>
+                    <p>nebudte@nudni.cz.</p>
+                </div>
+                <!-- <div id="map_obal"> -->
+                <div id="map"></div>
+                <!-- </div> -->
+              </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnyV72i-TsAm_efnOmBqAORgS7HiEE3go&callback=initMap" async defer></script>
 </body>
+</html>
